@@ -1,13 +1,46 @@
 import React, { useState } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const LoginPage = () => {
+
+
+const LoginPage = ({onLogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Future: send login request to backend
-    console.log("Logging in with", email, password);
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      // Save token to localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // Optionally, pass user info up to App or Context
+      onLogin(user);
+      if (user.role === 'admin') {
+        navigate('/admin-dashboard');
+      } else if (user.role === 'customer') {
+        navigate('/customer-dashboard');
+      } else {
+        navigate('/');
+      }
+
+
+    } catch (err) {
+      setError('Login failed. Check your credentials.');
+    }
   };
 
   return (
@@ -30,6 +63,7 @@ const LoginPage = () => {
         /><br />
         <button type="submit">Login</button>
       </form>
+      <p>Don't have an account? <Link to="/register">Register here</Link></p>
     </div>
   );
 };

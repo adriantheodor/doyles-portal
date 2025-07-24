@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema({
   name: String,
   role: String,
 });
-const User = mongoose.model('User', UserSchema);
 
 // Route to create a test user
 router.get('/test-create', async (req, res) => {
@@ -17,6 +16,12 @@ router.get('/test-create', async (req, res) => {
   } catch (err) {
     res.status(500).send(err.message);
   }
+});
+
+router.post('/register', async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  // ...Validation, hashing password, saving to DB, etc.
 });
 
 module.exports = router;
