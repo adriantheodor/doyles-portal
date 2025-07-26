@@ -14,6 +14,7 @@ const RegisterPage = () => {
   });
 
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -24,13 +25,16 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
     try {
       await axios.post('http://localhost:5000/api/users/register', formData);
 
-      // Redirect to login after successful registration
-      navigate('/login');
+      setSuccess("Registration successful! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
+      console.error(err);
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
@@ -39,6 +43,7 @@ const RegisterPage = () => {
     <div>
       <h1>Register</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      {success && <p style={{ color: "green" }}>{success}</p>}
       
       <form onSubmit={handleSubmit}>
         <input
