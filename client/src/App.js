@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashPage from './pages/AdminDashPage';
 import CustomerDashPage from './pages/CustomerDashPage';
 import RoleBasedRoute from './components/RoleBasedRoute';
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 import './App.css';
 
 function AppWrapper() {
@@ -30,6 +31,7 @@ function AppWrapper() {
         <Route path="/register" element={<RegisterPage onLogin={handleLogin} />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage user={user} onLogin={handleLogin} />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/admin-dashboard" element={<RoleBasedRoute allowedRoles={['admin']}><AdminDashPage /></RoleBasedRoute>}/>
         <Route path="/customer-dashboard" element={<RoleBasedRoute allowedRoles={['customer']}> <CustomerDashPage /> </RoleBasedRoute>}/>
       </Routes>

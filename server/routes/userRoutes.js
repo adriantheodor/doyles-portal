@@ -10,14 +10,26 @@ const UserSchema = new mongoose.Schema({
   role: String,
 });
 
-// Route to create a test user
-router.get('/test-create', async (req, res) => {
+router.post('/change-password', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
   try {
-    const newUser = new User({ name: 'Test User', role: 'admin' });
-    await newUser.save();
-    res.send('Test user created.');
+    const user = await User.findById(req.user.id);
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect.' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    await user.save();
+
+    res.json({ message: 'Password updated successfully.' });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error(err);
+    res.status(500).send('Server error.');
   }
 });
 
