@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser, activeSection, setActiveSection }) => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setUser(null);
     navigate('/login');
   };
 
@@ -19,6 +19,7 @@ const Navbar = () => {
     <nav style={{ padding: "1rem", backgroundColor: "#eee", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div>
         <img src={logo} alt="Doyle's Logo" style={{ height: "40px", marginRight: "1rem" }} />
+
         {!user && (
           <>
             <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
@@ -29,22 +30,21 @@ const Navbar = () => {
           </>
         )}
 
-        {user && user.role === 'admin' && (
+        {user?.role === 'admin' && (
           <>
-            <Link to="/admin-dashboard" style={{ marginRight: "1rem" }}>Admin Home</Link>
-            <Link to="/inventory" style={{ marginRight: "1rem" }}>Inventory</Link>
-            <Link to="/orders" style={{ marginRight: "1rem" }}>Orders</Link>
-            <Link to="/maintenance" style={{ marginRight: "1rem" }}>Maintenance</Link>
-            <Link to="/invoices" style={{ marginRight: "1rem" }}>Invoices</Link>
-            <Link to="/qr-generator" style={{ marginRight: "1rem" }}>QR Codes</Link>
-            <Link to="/partners" style={{ marginRight: "1rem" }}>Partners</Link>
+            <button onClick={() => {navigate('/admin-dashboard');
+              setActiveSection && setActiveSection('overview');}} style={{ marginRight: "1rem" }}>Admin Home</button>
+            <button onClick={() => setActiveSection('inventory')} style={{ marginRight: "1rem" }}>Inventory</button>
+            <button onClick={() => setActiveSection('orders')} style={{ marginRight: "1rem" }}>Orders</button>
+            <button onClick={() => setActiveSection('maintenance')} style={{ marginRight: "1rem" }}>Maintenance</button>
+            <button onClick={() => setActiveSection('invoices')} style={{ marginRight: "1rem" }}>Invoices</button>
+            <button onClick={() => setActiveSection('qrcodes')} style={{ marginRight: "1rem" }}>QR Codes</button>
           </>
         )}
 
-        {user && user.role === 'customer' && (
+        {user?.role === 'customer' && (
           <>
-            <Link to="/customer-dashboard" style={{ marginRight: "1rem" }}>Customer Home</Link>
-            {/* Add customer links here as needed */}
+            <button onClick={() => navigate('/customer-dashboard')} style={{marginRight: "1rem"}}>Customer Home</button>
           </>
         )}
       </div>

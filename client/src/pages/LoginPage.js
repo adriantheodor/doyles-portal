@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({ onLogin }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const LoginPage = () => {
       // Store user and token in localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-
+      onLogin(user);
       console.log("Form Data:", formData);
       console.log("Login Response:", res.data);
 
@@ -61,6 +61,13 @@ const LoginPage = () => {
         /><br />
         <button type="submit">Login</button>
       </form>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+  <p style={{ margin: 0 }}>Don’t have an account?</p>
+  <button onClick={() => navigate('/register')}>Register</button>
+</div>
+      
+
     </div>
   );
 };

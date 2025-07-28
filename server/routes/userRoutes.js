@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose');
+const { authenticateToken } = require('../middleware/auth');
 
 const UserSchema = new mongoose.Schema({
   name: String,
