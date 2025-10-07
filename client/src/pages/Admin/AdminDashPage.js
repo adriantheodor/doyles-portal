@@ -6,6 +6,7 @@ import OrderManager from './components/OrderManager';
 import MaintenanceManager from './components/MaintenanceManager';
 import InvoiceUploader from './components/InvoiceUploader';
 import QRCodeGenerator from './components/QRCodeGenerator';
+import QuoteRequestsWidget from "../../components/admin/QuoteRequestsWidget";
 
 
 const AdminDashboardPage = ({ activeSection }) => {
@@ -34,6 +35,7 @@ const AdminDashboardPage = ({ activeSection }) => {
   return (
     <div>
       <h1>Admin Dashboard</h1>
+      <QuoteRequestsWidget />
       <div>{renderSection()}</div>
     </div>
   );

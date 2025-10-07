@@ -20,6 +20,8 @@ app.use('/api/issues', require('./routes/issueRoutes'));
 app.use('/api/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/invoices', require('./routes/invoiceRoutes'));
 app.use('/api/auth', authRoutes);
+const quoteRoutes = require('./routes/quoteRoutes');
+app.use('/api/quotes', quoteRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

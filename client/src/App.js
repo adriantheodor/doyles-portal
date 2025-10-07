@@ -9,6 +9,8 @@ import AdminDashPage from './pages/Admin/AdminDashPage';
 import CustomerDashPage from './pages/CustomerDashPage';
 import RoleBasedRoute from './components/RoleBasedRoute';
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import QuotePage from "./pages/QuotePage";
+
 import './App.css';
 
 function AppWrapper() {
@@ -44,6 +46,7 @@ function AppWrapper() {
         <Route path="/register" element={<RegisterPage onLogin={handleLogin} />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage user={user} onLogin={handleLogin} />} />
+        <Route path="/quote" element={<QuotePage user={user} />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/admin-dashboard" element={
           <RoleBasedRoute allowedRoles={['admin']}>
